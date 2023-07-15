@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Add Post</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f1f1f1;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            width: 300px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        input[type="file"] {
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" />
+</head>
+
+<body>
+    <div class="container">
+        <h1>Add Post</h1>
+        <form id="postForm" enctype="multipart/form-data">
+            <div class="preview">
+                <img id="imagePreview" src="#" alt="Image Preview" />
+            </div>
+            <div>
+                <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" />
+            </div>
+            <div>
+                <textarea id="caption" rows="4" placeholder="Write a caption..."></textarea>
+            </div>
+            <div>
+                <button type="submit">Add Post</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
+    <script>
+        var cropper;
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+
+                    if (cropper) {
+                        cropper.destroy();
+                    }
+
+                    initializeCropper();
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function initializeCropper() {
+            var image = document.getElementById('imagePreview');
+
+            cropper = new Cropper(image, {
+                aspectRatio: 1,
+                viewMode: 1,
+                movable: true,
+                zoomable: true,
+                rotatable: true,
+                scalable: true,
+                cropBoxResizable: true,
+                autoCropArea: 1,
+                ready: function () {
+                    cropper.setCropBoxData({ width: 300, height: 300 });
+                }
+            });
+        }
+
+        document.getElementById('imageUpload').addEventListener('change', function () {
+            readURL(this);
+        });
+
+        document.getElementById('postForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            var image = document.getElementById('imageUpload').files[0];
+            var caption = document.getElementById('caption').value;
+
+            if (cropper) {
+                var canvas = cropper.getCroppedCanvas();
+                canvas.toBlob(function (blob) {
+                    // Perform necessary actions with the cropped image blob and caption
+                    // ...
+
+                    document.getElementById('postForm').reset();
+                    document.getElementById('imagePreview').src = '#';
+
+                    if (cropper) {
+                        cropper.destroy();
+                        cropper = null;
+                    }
+                }, 'image/jpeg');
+            } else {
+                // Perform necessary actions with the original image and caption
+                // ...
+
+                document.getElementById('postForm').reset();
+                document.getElementById('imagePreview').src = '#';
+            }
+        });
+    </script>
+</body>
+
+</html>
