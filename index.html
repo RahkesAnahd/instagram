@@ -2,172 +2,211 @@
 <html>
 
 <head>
-    <title>Add Post</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/css/bootstrap.min.css">
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f1f1f1;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
-        }
-
-        h1 {
+            background-color: #f5f5f5;
             color: #333;
-            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
         }
 
-        form {
-            width: 300px;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        .dark-mode {
+            background-color: #333;
+            color: #f5f5f5;
+        }
+        .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding-top: 20px;
+    }
+        .dark-mode .fa-toggle-on {
+            display: none;
         }
 
-        .preview {
-            width: 300px;
-            height: 300px;
-            border: 1px solid #ccc;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            overflow: hidden;
+        .dark-mode .fa-toggle-off {
+            display: inline;
         }
 
-        #imagePreview {
-            max-width: 100%;
-            max-height: 100%;
+        .light-mode .fa-toggle-on {
+            display: inline;
         }
 
-        input[type="file"] {
-            margin-bottom: 10px;
+        .light-mode .fa-toggle-off {
+            display: none;
         }
 
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        button[type="submit"] {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
+        .theme-toggle {
+            display: inline-block;
+            background-color: transparent;
             border: none;
-            border-radius: 4px;
             cursor: pointer;
+            position: relative;
         }
 
-        button[type="submit"]:hover {
-            background-color: #45a049;
+        .theme-toggle .icon {
+            position: absolute;
+            transition: transform 0.3s ease;
         }
+
+        .theme-toggle .icon.active {
+            transform: rotate(180deg);
+        }
+
+        .dark-mode .theme-toggle {
+            color: #f5f5f5;
+        }
+        .post {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      padding: 10px;
+    }
+    
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .post-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
+    }
+    
+    .post-username {
+      font-weight: bold;
+    }
+    
+    .post-time {
+      font-size: 12px;
+      color: #888;
+    }
+    
+    .post-image {
+      max-width: 100%;
+      margin-bottom: 10px;
+    }
+    
+    .post-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 2%;
+      
+    }
+    
+    .post-actions i {
+      margin-right: 10px;
+    }
+    .U_Read_More{
+         text-decoration: none;
+    }
+    .carousel-item {
+      height: 350px;
+      
+    }
+    .carousel-item img {
+
+      width: auto;
+ 
+      margin: auto; 
+      display: block;
+      
+    }
+
     </style>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.css" />
 </head>
 
-<body>
-    <div class="container">
-        <h1>Add Post</h1>
-        <form id="postForm" enctype="multipart/form-data">
-            <div class="preview">
-                <img id="imagePreview" src="#" alt="Image Preview" />
-            </div>
+<body class="light-mode">
+
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <i class="fas fa-sun icon active"></i>
+        <i class="fas fa-moon icon"></i>
+    </button>
+<div class="container">
+    <div class="post">
+        <div class="post-header">
+            <img src="i/a1.png" alt="User Avatar" class="post-avatar">
             <div>
-                <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                <div class="post-username">John Doe</div>
+                <div class="post-time">2 hours ago</div>
             </div>
-            <div>
-                <textarea id="caption" rows="4" placeholder="Write a caption..."></textarea>
+            
+        </div>
+        <div>
+            Access a wide range of interactive online classes that can be taken from the comfort of your own home, providing
+            convenience and flexibility to fit your schedule <a href="#" class="U_Read_More">Read More...</a>
+            <p></p>
+        </div>
+        <div id="postcarousel" class="carousel slide" data-bs-wrap="false" >
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#postcarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#postcarousel" data-bs-slide-to="1"aria-label="Slide 2"></button> 
+                <button type="button" data-bs-target="#postcarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
             </div>
-            <div>
-                <button type="submit">Add Post</button>
+            <div class="carousel-inner " >
+                <div class="carousel-item active "> <div class="d-flex justify-content-center w-100 h-100"><img src="i/p1.jpg" class="align-middle" alt="..."></div></div>
+                <div class="carousel-item">         <div class="d-flex justify-content-center w-100 h-100"><img src="i/i1.jpg" class="align-middle" alt="..."></div></div>
+                <div class="carousel-item">         <div class="d-flex justify-content-center w-100 h-100"><img src="i/a5.jpg" class="align-middle" alt="..."></div></div>
             </div>
-        </form>
+        </div>
+
+        <div class="post-actions">
+            <i>150 Likes</i>
+            <i>6 Comments</i>
+        </div>
+        <hr style=" margin: 0em; ">
+        <div class="post-actions">
+            <i class="far fa-heart"> Likes</i>
+            <i class="far fa-comment"> Comments</i>
+            <i class="far fa-paper-plane"> Share</i>
+            <i class="fas fa-ellipsis-h dots-icon"></i>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/cropperjs/dist/cropper.min.js"></script>
+    <div class="post">
+        <div class="post-header">
+            <img src="i/a2.png" alt="User Avatar" class="post-avatar">
+            <div>
+                <div class="post-username">Nakshitra</div>
+                <div class="post-time">5 hours ago</div>
+            </div>
+        </div>
+        <div>
+            Access a wide range of interactive online classes that can be taken from the comfort of your own
+            home, providing convenience and flexibility to fit your schedule <a href="#" class="U_Read_More">Read More...</a><p></p>
+        </div>
+        <img src="i/p2.jpg" alt="Post Image" class="post-image">
+        <div class="post-actions">
+            <i>150 Likes</i>
+            <i>6 Comments</i>
+        </div><hr style=" margin: 0em; ">
+        <div class="post-actions">
+            <i class="far fa-heart"> 150</i>
+            <i class="far fa-comment"> 24</i>
+            <i class="far fa-paper-plane"> Share</i>
+            <i class="far fa-bookmark"> Save</i>
+        </div>
+        
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
     <script>
-        var cropper;
-
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-
-                reader.onload = function (e) {
-                    document.getElementById('imagePreview').src = e.target.result;
-
-                    if (cropper) {
-                        cropper.destroy();
-                    }
-
-                    initializeCropper();
-                }
-
-                reader.readAsDataURL(input.files[0]);
-            }
+        
+        function toggleTheme() {
+            const body = document.querySelector('body');
+            body.classList.toggle('dark-mode');
+            body.classList.toggle('light-mode');
+            const icons = document.querySelectorAll('.theme-toggle .icon');
+            icons.forEach(icon => icon.classList.toggle('active'));
         }
-
-        function initializeCropper() {
-            var image = document.getElementById('imagePreview');
-
-            cropper = new Cropper(image, {
-                aspectRatio: 1,
-                viewMode: 1,
-                movable: true,
-                zoomable: true,
-                rotatable: true,
-                scalable: true,
-                cropBoxResizable: true,
-                autoCropArea: 1,
-                ready: function () {
-                    cropper.setCropBoxData({ width: 300, height: 300 });
-                }
-            });
-        }
-
-        document.getElementById('imageUpload').addEventListener('change', function () {
-            readURL(this);
-        });
-
-        document.getElementById('postForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            var image = document.getElementById('imageUpload').files[0];
-            var caption = document.getElementById('caption').value;
-
-            if (cropper) {
-                var canvas = cropper.getCroppedCanvas();
-                canvas.toBlob(function (blob) {
-                    // Perform necessary actions with the cropped image blob and caption
-                    // ...
-
-                    document.getElementById('postForm').reset();
-                    document.getElementById('imagePreview').src = '#';
-
-                    if (cropper) {
-                        cropper.destroy();
-                        cropper = null;
-                    }
-                }, 'image/jpeg');
-            } else {
-                // Perform necessary actions with the original image and caption
-                // ...
-
-                document.getElementById('postForm').reset();
-                document.getElementById('imagePreview').src = '#';
-            }
-        });
     </script>
 </body>
 
 </html>
+
